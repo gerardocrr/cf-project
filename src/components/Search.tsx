@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CardRecipe } from "./CardRecipe";
 import axios from "axios";
 
 interface Recipe {
@@ -75,15 +76,16 @@ export function Search() {
         </div>
       </form>
 
-      <ul>
+      <div className="grid md:grid-cols-4 sm:grid-cols-3">
         {recipeData &&
           recipeData.results.map((recipe) => (
-            <li className="movie" key={recipe.id}>
-              <h3>{recipe.title}</h3>
-              <img src={recipe.image} alt={recipe.title} />
-            </li>
+            <CardRecipe
+              key={recipe.id}
+              title={recipe.title}
+              urlImage={recipe.image}
+            />
           ))}
-      </ul>
+      </div>
     </div>
   );
 }
