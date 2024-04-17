@@ -6,7 +6,6 @@ interface Recipe {
   id: number;
   title: string;
   image: string;
-  // Otros campos necesarios
 }
 interface RecipeData {
   results: Recipe[];
@@ -14,9 +13,6 @@ interface RecipeData {
 
 export function Search() {
   const [query, setQuery] = useState("");
-  // const [formData, setFormData] = useState<FormData>({
-  //   query: "",
-  // });
   const [recipeData, setRecipeData] = useState<RecipeData | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +79,7 @@ export function Search() {
               key={recipe.id}
               title={recipe.title}
               urlImage={recipe.image}
+              id={recipe.id}
             />
           ))}
       </div>
