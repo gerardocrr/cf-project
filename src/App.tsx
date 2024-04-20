@@ -1,20 +1,20 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Search } from "./components/Search";
+import { Cocktails } from "./components/Cocktails";
 import { Sidebar } from "./components/Sidebar";
-import { FavoritesRecipes } from "./components/FavoritesRecipes";
+import { FavoritesCocktails } from "./components/FavoritesCocktails";
 import { Login } from "./components/Auth/Login";
-import { DetailRecipe } from "./components/DetailRecipe";
+import { DetailCocktail } from "./components/DetailCocktail";
 
 function App() {
   return (
     <BrowserRouter>
       <Sidebar />
       <Routes>
-        <Route path="/" element={<Search />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/favorites" element={<FavoritesRecipes />} />
-        <Route path="/details/:id" element={<DetailRecipe />} />
+        <Route path="/" element={<Cocktails />} />
+        <Route path="/search" element={<Cocktails />} />
+        <Route path="/favorites" element={<FavoritesCocktails />} />
+        <Route path="/details/:id" element={<DetailCocktail />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
