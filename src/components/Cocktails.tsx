@@ -1,17 +1,7 @@
-import { useEffect, useState } from "react";
 import { CardCocktail } from "./CardCocktail";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { useLoginStore } from "../store/loginStore";
-
-interface Cocktail {
-  idDrink: number;
-  strDrink: string;
-  strDrinkThumb: string;
-}
-interface CocktailsData {
-  drinks: Cocktail[];
-}
+import { useCocktails } from "../hooks/useCocktails";
 
 export function Cocktails() {
   const {
@@ -20,51 +10,7 @@ export function Cocktails() {
     formState: { errors },
   } = useForm();
   const isAuthorized = useLoginStore.getState().isAuthorized;
-  const [cocktailsData, setCocktailsData] = useState<CocktailsData>();
-
-  useEffect(() => {
-    const getRandomCocktails = async () => {
-      const options = {
-        method: "GET",
-        url: "https://the-cocktail-db.p.rapidapi.com/randomselection.php",
-        headers: {
-          "X-RapidAPI-Key":
-            "85da6e33b1mshf6c86a03a7356e8p13dd0fjsn8ecf6d039123",
-          "X-RapidAPI-Host": "the-cocktail-db.p.rapidapi.com",
-        },
-      };
-
-      try {
-        const response = await axios.request(options);
-        setCocktailsData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getRandomCocktails();
-  }, []);
-
-  const onSubmit = async (data: any) => {
-    const options = {
-      method: "GET",
-      url: "https://the-cocktail-db.p.rapidapi.com/search.php",
-      params: { s: data.query },
-      headers: {
-        "X-RapidAPI-Key": "85da6e33b1mshf6c86a03a7356e8p13dd0fjsn8ecf6d039123",
-        "X-RapidAPI-Host": "the-cocktail-db.p.rapidapi.com",
-      },
-    };
-
-    try {
-      const response = await axios.request(options);
-      setCocktailsData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-    console.log(cocktailsData);
-  };
+  const { cocktailsData, onSubmit } = useCocktails();
 
   return (
     <div className="p-4 sm:ml-64">
