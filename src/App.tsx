@@ -20,15 +20,6 @@ function App() {
           }
         />
         <Route
-          path="/search"
-          element={
-            <>
-              <Sidebar />
-              <Cocktails />
-            </>
-          }
-        />
-        <Route
           path="/favorites"
           element={
             <>

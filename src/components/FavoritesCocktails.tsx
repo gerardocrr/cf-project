@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { CardCocktail } from "./CardCocktail";
 import { useFavoritesStore } from "../store/favoritesCocktailsStore";
 import axios from "axios";
+import { useLoginStore } from "../store/loginStore";
 
 interface Cocktail {
   idDrink: number;
@@ -15,6 +17,7 @@ interface CocktailsData {
 export function FavoritesCocktails() {
   const [cocktailsData, setCocktailsData] = useState<CocktailsData[]>([]);
   const ids = useFavoritesStore.getState().ids;
+  const isAuthorized = useLoginStore.getState().isAuthorized;
 
   useEffect(() => {
     const getFavoritesCocktails = async () => {
@@ -44,6 +47,11 @@ export function FavoritesCocktails() {
 
     getFavoritesCocktails();
   }, []);
+
+  if (!isAuthorized) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <div className="p-4 sm:ml-64">
       <h1 className="text-4xl">Favorites cocktails</h1>

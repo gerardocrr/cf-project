@@ -1,13 +1,25 @@
 import { useForm } from "react-hook-form";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useLoginStore } from "../../store/loginStore";
 
 export function Login() {
+  const setUser = useLoginStore((state) => state.setUser);
+  const navigate = useNavigate();
+  const isAuthorized = useLoginStore.getState().isAuthorized;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSumit = () => {};
+  const onSumit = (data: any) => {
+    setUser(data.user, true);
+    navigate("/");
+  };
+
+  if (isAuthorized) {
+    return <Navigate to="/" />;
+  }
   return (
     <section className="bg-gray-50">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
