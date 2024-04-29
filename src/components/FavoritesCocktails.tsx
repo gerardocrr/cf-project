@@ -33,7 +33,6 @@ export function FavoritesCocktails() {
         try {
           const response = await axios.request(options);
           return response.data;
-          //setCocktailsData(response.data);
         } catch (error) {
           console.error(error);
           return null;

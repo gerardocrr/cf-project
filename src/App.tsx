@@ -9,12 +9,43 @@ import { DetailCocktail } from "./components/DetailCocktail";
 function App() {
   return (
     <BrowserRouter>
-      <Sidebar />
       <Routes>
-        <Route path="/" element={<Cocktails />} />
-        <Route path="/search" element={<Cocktails />} />
-        <Route path="/favorites" element={<FavoritesCocktails />} />
-        <Route path="/details/:id" element={<DetailCocktail />} />
+        <Route
+          index
+          element={
+            <>
+              <Sidebar />
+              <Cocktails />
+            </>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <>
+              <Sidebar />
+              <Cocktails />
+            </>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <>
+              <Sidebar />
+              <FavoritesCocktails />
+            </>
+          }
+        />
+        <Route
+          path="/details/:id"
+          element={
+            <>
+              <Sidebar />
+              <DetailCocktail />
+            </>
+          }
+        />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
