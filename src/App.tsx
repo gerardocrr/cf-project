@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Cocktails } from "./components/Cocktails";
 import { Sidebar } from "./components/Sidebar";
