@@ -2,6 +2,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFavoritesStore } from "../store/favoritesCocktailsStore";
+import { useLoginStore } from "../store/loginStore";
 
 interface Cocktail {
   idDrink: number;
@@ -20,6 +21,7 @@ export function DetailCocktail() {
   const [cocktailDetails, setCocktailDetails] = useState<CocktailsData>();
   const favorites = useFavoritesStore((state) => state.ids);
   const setFavorite = useFavoritesStore((state) => state.handleId);
+  const isAuthorized = useLoginStore.getState().isAuthorized;
 
   useEffect(() => {
     const getCocktailDetails = async () => {
@@ -61,46 +63,50 @@ export function DetailCocktail() {
             <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
               {cocktailDetails?.drinks[0].strDrink}
             </h1>
-            <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-              {cocktailDetails && (
-                <button
-                  className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-                  onClick={() => setFavorite(cocktailDetails.drinks[0].idDrink)}
-                >
-                  {favorites.includes(cocktailDetails.drinks[0].idDrink) ? (
-                    <p key={cocktailDetails.drinks[0].idDrink}>
+            {isAuthorized && (
+              <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
+                {cocktailDetails && (
+                  <button
+                    className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                    onClick={() =>
+                      setFavorite(cocktailDetails.drinks[0].idDrink)
+                    }
+                  >
+                    {favorites.includes(cocktailDetails.drinks[0].idDrink) ? (
+                      <p key={cocktailDetails.drinks[0].idDrink}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="black"
+                          className="icon icon-tabler icons-tabler-filled icon-tabler-heart"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" />
+                        </svg>
+                      </p>
+                    ) : (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
-                        fill="black"
-                        className="icon icon-tabler icons-tabler-filled icon-tabler-heart"
+                        fill="none"
+                        stroke="black"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="icon icon-tabler icons-tabler-outline icon-tabler-heart"
                       >
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" />
+                        <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
                       </svg>
-                    </p>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="black"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="icon icon-tabler icons-tabler-outline icon-tabler-heart"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                    </svg>
-                  )}
-                </button>
-              )}
-            </div>
+                    )}
+                  </button>
+                )}
+              </div>
+            )}
 
             <hr className="my-6 md:my-8 border-gray-200" />
 
