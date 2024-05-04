@@ -23,8 +23,7 @@ export function useDetailsCocktails(id: string) {
         url: "https://the-cocktail-db.p.rapidapi.com/lookup.php",
         params: { i: id },
         headers: {
-          "X-RapidAPI-Key":
-            "85da6e33b1mshf6c86a03a7356e8p13dd0fjsn8ecf6d039123",
+          "X-RapidAPI-Key": import.meta.env.VITE_APIKEY,
           "X-RapidAPI-Host": "the-cocktail-db.p.rapidapi.com",
         },
       };
@@ -32,7 +31,6 @@ export function useDetailsCocktails(id: string) {
       try {
         const response = await axios.request(options);
         setCocktailDetails(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
