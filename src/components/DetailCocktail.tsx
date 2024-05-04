@@ -1,51 +1,14 @@
-import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useFavoritesStore } from "../store/favoritesCocktailsStore";
 import { useLoginStore } from "../store/loginStore";
-
-interface Cocktail {
-  idDrink: number;
-  strDrink: string;
-  strDrinkThumb: string;
-  strInstructions: string;
-  strGlass: string;
-  [key: string]: string | number | null;
-}
-interface CocktailsData {
-  drinks: Cocktail[];
-}
+import { useDetailsCocktails } from "../hooks/useDetailsCocktails";
 
 export function DetailCocktail() {
   const params = useParams();
-  const [cocktailDetails, setCocktailDetails] = useState<CocktailsData>();
+  const { cocktailDetails } = useDetailsCocktails(params.id || "");
   const favorites = useFavoritesStore((state) => state.ids);
   const setFavorite = useFavoritesStore((state) => state.handleId);
   const isAuthorized = useLoginStore.getState().isAuthorized;
-
-  useEffect(() => {
-    const getCocktailDetails = async () => {
-      const options = {
-        method: "GET",
-        url: "https://the-cocktail-db.p.rapidapi.com/lookup.php",
-        params: { i: params.id },
-        headers: {
-          "X-RapidAPI-Key":
-            "85da6e33b1mshf6c86a03a7356e8p13dd0fjsn8ecf6d039123",
-          "X-RapidAPI-Host": "the-cocktail-db.p.rapidapi.com",
-        },
-      };
-
-      try {
-        const response = await axios.request(options);
-        setCocktailDetails(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCocktailDetails();
-  }, []);
 
   return (
     <section className="p-4 sm:ml-64 bg-white md:py-16 antialiased">
